@@ -1,0 +1,21 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\OltController;
+use App\Http\Controllers\OnuController;
+use App\Http\Controllers\DashboardController;
+
+Route::get('/', function () {
+    return redirect()->route('dashboard');
+});
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::get('olts/{olt}/status', [OltController::class, 'status'])->name('olts.status');
+Route::post('olts/{olt}/sync', [OltController::class, 'sync'])->name('olts.sync');
+Route::resource('olts', OltController::class);
+Route::post('onus/sync-background', [OnuController::class, 'syncBackground'])->name('onus.sync.background');
+Route::get('onus/{onu}/power', [OnuController::class, 'power'])->name('onus.power');
+Route::get('onus/unconfigured', [OnuController::class, 'unconfigured'])->name('onus.unconfigured');
+Route::resource('onus', OnuController::class)->except(['show']);
